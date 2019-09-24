@@ -1,0 +1,328 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Student Portal</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="ensembleat project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css' %}">
+<link href="{% static 'plugins/video-js/video-js.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/blog.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/blog_responsive.css' %}">
+<!-- STYLE CSS -->
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!--Styling -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<style type="text/css">
+div
+{
+display: block;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+body{
+background-image: url("white_bg.jpg");
+background-repeat:no-repeat;
+background-size:cover;
+}
+</style>
+</head>
+<body>
+  <body onload="myFunction()">
+<div class="super_container">
+<!-- Header -->
+<header class="header">
+<!-- Top Bar -->
+<div class="top_bar">
+<div class="top_bar_container">
+<div class="container">
+<div class="row">
+<div class="col">
+<div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
+<ul class="top_bar_contact_list">
+<li><div class="question">Have any questions?</div></li>
+<li>
+<i class="fa fa-phone" aria-hidden="true"></i>
+<div>001-1234-88888</div>
+</li>
+<li>
+<i class="fa fa-envelope-o" aria-hidden="true"></i>
+<div>info.deercreative@gmail.com</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Header Content -->
+<div class="header_container">
+<div class="container">
+<div class="row">
+<div class="col">
+<div class="header_content d-flex flex-row align-items-center justify-content-start">
+<div class="logo_container">
+<a href="#">
+<div class="logo_text">ensemble<span>AI</span></div>
+</a>
+</div>
+<nav class="main_nav_contaner ml-auto">
+<ul class="main_nav">
+<li><a href="{% url 'index' %}">Home</a></li>
+<li><a href="{% url 'about' %}">About</a></li>
+<li><a href="{% url 'contact' %}">Contact</a></li>
+<li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+<!-- Hamburger -->
+<div class="shopping_cart"><a href="index.html"><i class="fa fa-sign-out" ></i></a></div>
+<div class="hamburger menu_mm">
+<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+</div>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Header Search Panel -->
+<div class="header_search_container">
+<div class="container">
+<div class="row">
+<div class="col">
+<div class="header_search_content d-flex flex-row align-items-center justify-content-end">
+<form action="#" class="header_search_form">
+<input type="search" class="search_input" placeholder="Search" required="required">
+<button class="header_search_button d-flex flex-column align-items-center justify-content-center">
+<i class="fa fa-search" aria-hidden="true"></i>
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Menu -->
+<!-- Home -->
+<div class="home">
+<div class="breadcrumbs_container">
+<div class="container">
+<div class="row">
+<div class="col">
+<div class="breadcrumbs">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li>Student Portal</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Blog -->
+<button onclick="document.getElementById('id03').style.display='block'" style="width:auto;" ><a href="student_registration.html"><img src="{% static 'images/my_profile.jpg' %}" height="70px" width="150"></a></button><br><br>
+<center><button hidden onclick="document.getElementById('id03').style.display='block'" style="width:auto;"><img src="{% static 'images/my_dashboard.PNG' %}" height="70px" width="150"></button></center><br><br>
+<center><form hidden>
+Student ID:<br>
+<input type="text" name="ID"><br>
+Student name:<br>
+<input type="text" name="student_name"><br>
+</form><br></center>
+<center>
+<form method="POST">
+  {% csrf_token %}
+<center>
+  <input type="text" name="title" placeholder="Title" class="form-control">
+  <textarea name="essay" rows="10" cols="100" class="form-control" placeholder="Enter an essay here or else you can choose your file from the below the option."></textarea><br><br></center>
+<center>
+<input type="file" name="file" id="filename" accept="application/msword, text/plain, .docs, .doc, .docx">
+<br><br>
+<button type="reset" style="background-color:#14bdee">Reset</button><br>
+<button type="submit" style="background-color:#14bdee">Submit</button>	<br><br><br>
+</center>
+</form>
+<center>
+<!-- {{is_submitted}} -->
+<div style="width:60%">
+<table border="1" id="example" class="display" >
+  <thead>
+    <th>Sr. Number</th>
+    <th>Title</th>
+    <th>Created On</th>
+    <th>Grade</th>
+    <th>Feedback</th>
+  </thead>
+  <tbody>
+    {% for elem in essay_history %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td><a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">{{elem.title}}</a>
+          <div id="light" class="white_content">{{elem.text}}
+             <a href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">Close</a>
+          </div>
+          <div id="fade" class="black_overlay"></div>
+        </td>
+        <td>{{elem.created_on}}</td>
+        <td>{{elem.grade}}</td>
+        <td>{{elem.feedback}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+</div>
+{% for elem in essay_history %}
+{% endfor %}
+</center>
+<!-- Footer -->
+<footer class="footer">
+<div class="footer_background" style="background-image:url(static/images/footer_background.png)"></div>
+<div class="container">
+<div class="row footer_row">
+<div class="col">
+<div class="footer_content">
+<div class="row">
+<div class="col-lg-3 footer_col">
+<!-- Footer About -->
+<div class="footer_section footer_about">
+<div class="footer_logo_container">
+<a href="#">
+<div class="footer_logo_text">ensemble<span>at</span></div>
+</a>
+</div>
+<div class="footer_about_text">
+<p>Lorem ipsum dolor sit ametium, consectetur adipiscing elit.</p>
+</div>
+<div class="footer_social">
+<ul>
+<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-lg-3 footer_col">
+<!-- Footer Contact -->
+<div class="footer_section footer_contact">
+<div class="footer_title">Contact Us</div>
+<div class="footer_contact_info">
+<ul>
+<li>Email: Info.deercreative@gmail.com</li>
+<li>Phone: +(88) 111 555 666</li>
+<li>40 Baria Sreet 133/2 New York City, United States</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-lg-3 footer_col">
+<!-- Footer links -->
+<div class="footer_section footer_links">
+<div class="footer_title">Contact Us</div>
+<div class="footer_links_container">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="#">Features</a></li>
+<li><a href="courses.html">Courses</a></li>
+<li><a href="#">Events</a></li>
+<li><a href="#">Gallery</a></li>
+<li><a href="#">FAQs</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-lg-3 footer_col clearfix">
+<!-- Footer links -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row copyright_row">
+<div class="col">
+<div class="copyright d-flex flex-lg-row flex-column align-items-center justify-content-start">
+<div class="cr_text"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+<div class="ml-lg-auto cr_links">
+<ul class="cr_list">
+<li><a href="#">Copyright notification</a></li>
+<li><a href="#">Terms of Use</a></li>
+<li><a href="#">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/masonry/masonry.js' %}"></script>
+<script src="{% static 'plugins/video-js/video.min.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+<script src="{% static 'js/blog.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+} );
+{% if is_submitted == 1 %}
+  function myFunction() {
+    swal("Your essay submitted successfully!",
+          "Grade: {{grade}}",
+          "success");
+  }
+  {% endif %}
+</script>
+<style media="screen">
+  .black_overlay {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .80;
+    filter: alpha(opacity=80);
+  }
+  .white_content {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    border: 16px solid orange;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+  }
+</style>
